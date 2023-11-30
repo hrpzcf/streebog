@@ -5,6 +5,9 @@
  * $Id$
  */
 
+#ifndef GOST3411_2012_CORE_H_
+#define GOST3411_2012_CORE_H_
+
 #include <string.h>
 
 #include "gost3411-2012-config.h"
@@ -25,10 +28,10 @@
 #include "gost3411-2012-ref.h"
 #endif
 
-ALIGN(16) union uint512_u
+ALIGN(16) typedef union uint512_u
 {
     unsigned long long QWORD[8];
-} uint512_u;
+} uint512_u_t;
 
 #include "gost3411-2012-const.h"
 #include "gost3411-2012-precalc.h"
@@ -36,10 +39,10 @@ ALIGN(16) union uint512_u
 ALIGN(16) typedef struct GOST34112012Context
 {
     ALIGN(16) unsigned char buffer[64];
-    ALIGN(16) union uint512_u hash;
-    ALIGN(16) union uint512_u h;
-    ALIGN(16) union uint512_u N;
-    ALIGN(16) union uint512_u Sigma;
+    ALIGN(16) uint512_u_t hash;
+    ALIGN(16) uint512_u_t h;
+    ALIGN(16) uint512_u_t N;
+    ALIGN(16) uint512_u_t Sigma;
     size_t bufsize;
     unsigned int digest_size;
 } GOST34112012Context;
@@ -53,3 +56,5 @@ void GOST34112012Update(GOST34112012Context *CTX, const unsigned char *data,
 void GOST34112012Final(GOST34112012Context *CTX, unsigned char *digest); 
 
 void GOST34112012Cleanup(GOST34112012Context *CTX);
+
+#endif // GOST3411_2012_CORE_H_
